@@ -1,0 +1,61 @@
+--linux ta komut baglaclari:
+&&(cift ampersand) : Birinci apersand da ki komut true ise ikinci ampersand daki komuta gecis yapilir 
+;(noktali virgul); :  Komut sonucu true ise ikinci komuta gecis yapilir
+
+
+-- Dockerfile yazarken ki best practices:
+-- Her buyuk harfli komut(FROM , CMD , ...) bir layer demektir, buyuzden minimum layer li komut yazmaya calis
+-- Degisen komutlar en sona yazilir
+-- .(nokta) yerine tam dosya , klasor path leri kullanilir
+-- linux dagitimlari olarak alpine linux (minimum debian isletim sistemi) u kullan, 
+ancak debug edecegin komutlar varsa; tcpdump, netstat, ... gibi alpine yerine ubuntu yu kullan.
+-- FROM dan sonra container a install edilen image larda tag olarak "latest" yerini specific version verilmelidir
+-- Mumkunse dockerhub daki image larda official ve verified iconlu image lari pull cekmek icin tercih et
+-- Dockerfile da Ters slash karakteri ile; daha okunur linux komutu yazmak icin best practices olarak kullan
+(Ters slash karakteri kendinden sonraki karakteri gecersiz kilmak icin kullanilir. Dockerfile da ise \n karakterini gecersiz kilmak icin kullanilir)
+--Temlate olarak Dockerfile icindeki komutlarda ; "&& \" kullanmak hem guvenlik, 
+hemde yer kaplama acisindan cok onemli.  
+
+--Container image turleri(Herkes OCI image standartini kabul etmis image turu yok)) neler? 
+Open Container Initiative(OCI) image create tool lari neler?
+OCI image create tool lari var;
+docker ve podman ile image build(create) edilebilir
+docker build -t hello .
+podman build -t hello . (podman altta buildah i kullanir)
+buildah bud -t hello .
+buildkit ...
+...
+
+--container turleri neler?
+Docker, Kubernetes, Podman
+--container yonetim API yada tool lari neler?
+
+-- Docker data Volume turleri;
+1) Docker DaVolume (prune image ile silinirse data silinebilir)
+2) Bind mount (en kalici data)
+3) tmpfs mount
+
+--docker compose file da "version" onem arzediyor. Version a gore compose komutlari calisir dikkat edilmesi gerekir.
+
+--CRI-O (Container Runtime Interface - Open container initiative based) nedir?
+(Container lari yöneten process ler dir)
+
+--etcd : kubernetes in key-value store veri tabani
+
+--kubelet : Nodun kaptani. Kubernetes in masterlarindan sorumlu
+
+--pod != Container
+--side-car pattern ile bir pod icine birden fazla container konulabilir
+
+--replicaset: belirli clusterda ki podlarda gecerli olsun
+--deamonset: tum podlarda gecerli olsun
+--statefulset: tum podlarda none cloud native olsun
+
+--act , diff , Observe uclusu nedir?
+--cluster state, desired(istenen) state, actual(gercek) state 
+
+
+
+
+
+
