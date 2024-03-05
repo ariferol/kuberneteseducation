@@ -1,3 +1,7 @@
+Kaynaklar linki : bit.ly/3uYLQb0
+veya
+https://drive.google.com/drive/folders/1PZYhxLaK_yHRwxn4c2X1NJmYNGtvUq_w
+
 --linux ta komut baglaclari:
 &&(cift ampersand) : Birinci apersand da ki komut true ise ikinci ampersand daki komuta gecis yapilir 
 ;(noktali virgul); :  Komut sonucu true ise ikinci komuta gecis yapilir
@@ -47,12 +51,83 @@ Docker, Kubernetes, Podman
 --pod != Container
 --side-car pattern ile bir pod icine birden fazla container konulabilir
 
---replicaset: belirli clusterda ki podlarda gecerli olsun
+--replicaset: belirli clusterda ki podlarda gecerli olsun demektir
 --deamonset: tum podlarda gecerli olsun
 --statefulset: tum podlarda none cloud native olsun
 
 --act , diff , Observe uclusu nedir?
 --cluster state, desired(istenen) state, actual(gercek) state 
+
+Install VMWare Workstation PRO 17 (Read it right. PRO!)
+license key: https://gist.github.com/PurpleVibe32/30a802c3c8ec902e1487024cdea26251
+
+
+--Ubuntuya docker engine i docker desktop olmadan kuruyoruz;
+1) https://docs.docker.com/engine/install/ubuntu/
+2) https://docs.docker.com/engine/install/linux-postinstall/ (sudo olmadan calistirabilmek icin post install yapiyoruz, burasi minicube de lazim)
+
+-- "newgrp docker" komutu, aktif user in grubu nu "docker" olarak sabitler. Tum islemler onun uzerinden yurutulur.
+
+--sample Dockerfile:
+FROM httpd:2.4
+COPY ./public-html/index.html/ /usr/local/apache2/htdocs/
+
+--yeni image create komutu:
+docker build . --progress=plain
+
+--image in container ini 80 portundan calistirma;
+docker run -p 80:80 58b4c00ad0be17fec398da7c448301f9939452586182877f7fe8e279fc338d27
+
+--minikube kurulumu:
+https://minikube.sigs.k8s.io/docs/start/
+linkinden ubuntu icin;
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+sudo dpkg -i minikube_latest_amd64.deb
+
+komutunu çalistiriyoruz. Sonra;
+"minikube start" komutunu calistiriyoruz.
+
+--sonra "minikube kubectl" komutu icin alias tanimliyoruz;
+alias kubectl="minikube kubectl --"
+veya
+alias k="minikube kubectl --"
+--alias in kalici olmasi icin;
+"vi /home/ariferol/.bashrc" komutu ile .bashrc dosyasinin en sonuna alias komutunu yapistirip kaydediyoruz.
+
+--alias tan sonra kubectl komutlarini artik;
+k get pods (pod listesini getirir)
+k get pods -o wide (pod listesini ekstra kolonlar ile getirir)
+
+--ornek kubernetes deployment proje create komutu:
+k create deployment hello-minikube --image=docker.io/nginx:1.23
+
+-- deployment lari services komutu ile gozlemliyoruz;
+k get services hello-minikube
+
+k get events
+k get pods --sort-by=.metadada.name
+k get explain pods
+
+--kube-system ve kubectl namespace leri degistirilmez
+
+k cluster-info dump -v 9
+
+k api-resources
+
+--port forwarding
+kubectl port-forward [resource-type]/[resource-name] [local-port]:[resource-port]
+kubectl port-forward -n default my-app-pod-7b48cf7bd7-27f79 8080:443
+
+
+
+
+
+
+
+
+
+
+
 
 
 
