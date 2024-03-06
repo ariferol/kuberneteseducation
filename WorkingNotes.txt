@@ -118,6 +118,85 @@ k api-resources
 kubectl port-forward [resource-type]/[resource-name] [local-port]:[resource-port]
 kubectl port-forward -n default my-app-pod-7b48cf7bd7-27f79 8080:443
 
+--namespace : calisma alani demektir
+k create namespace bsegitim
+
+k get namespace
+
+Not: replication controller/deployment/replicaset/pod/container(hiyerarsik nesne dizilimi)
+
+--labels: rc(replication controller) podlari taglarinden bulur.podlar uzerinde bilgi amacli eklenir
+
+--yml, yaml file ile create pod;
+k apply -f firstconfig.yml -n bsegitim
+
+-- namespace deki pod listesi;
+k get pods -n bsegitim
+
+Not: Transactional uygulamalari containerize etmemek best practice tir(Ornegin redis, postrgre db, mssql db, oracle db)
+Soru: Application serverlar icin görüş nedir?
+
+--create edilen config map listesi:
+k get configmaps -A
+
+--configmap i silme;
+k delete -f grafanaconfigmap.yml -n bsegitim
+
+-- Bir metni base64 encode ve decode etme komutlari;
+echo "selam" | base64
+echo "c2VsYW0K" | base64 -d
+
+-- Bir config map i edit leyip otomatik appl ettirmek icin alttaki komutu yazdiktan sonra kaydetip cikarsak, config map otomatik apply olur;
+k edit configmap grafana-config -n bsegitim
+
+--"PersistentVolumeClaim" turunde volume tanimlama configi ini creat edip alttaki gibi ilgili namespace e apply ediyoruz ve listeliyoruz;
+k apply -f persistentvolumeconfig.yml -n bsegitim
+k get pvc -A
+
+Not: volume larda kullanacagimiz onpremise storage API "rook API (https://www.cncf.io/projects/rook/)" kullanilabilir. Cloud daki karciligi longhorn (https://longhorn.io/) 
+k get pods -A
+k describe pod pod-example -n bsegitim
+
+k get pvc -n bsegitim
+k describe pvc -n bsegitim
+
+k get deployment deploymentname -n bsegitim
+k describe deployment deploymentname -n bsegitim
+
+k get configmap configmapname -n bsegitim
+k describe configmap configmapname -n bsegitim
+
+--minikube dashboard i aktif edip kurma komutu:
+minikube addons enable dashboard
+--minikube dashboard i browserda acma komutu:
+minikube dashboard
+
+--Service Types(4 major type var):
+ClusterIP(default)
+NodePort
+LoadBalancer
+ExternalName
+
+--master worker bestpractices:
+--master node lar etcd local veritabanında config bilgileri tutar. 
+Gorevleri; auto scale, deployment create veri planlama, worker larin health check i ,
+--master node lar en az 3 sunucu tavsiye edilir
+--gossip algorithm ile worker larin health check ini kontrol edilebilir
+
+--grafana-nodeport isimli sample service;
+k get service grafana-nodeport -n bsegitim
+k get svc -A (Tum service list)
+
+--Note: 100 milicore CPU = 0.1 core CPU demektir
+
+
+
+
+
+
+
+
+
 
 
 
