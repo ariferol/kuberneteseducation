@@ -189,6 +189,76 @@ k get svc -A (Tum service list)
 
 --Note: 100 milicore CPU = 0.1 core CPU demektir
 
+--health check pod creat config;
+k apply -f exec-liveness.yaml -n bsegitim
+k get pod liveness-exec -n bsegitim (pod kontrol komutu)
+
+k get pod liveness-http -n bsegitim
+
+--metric server plugin activate;
+minikube addons enable metrics-server
+
+--sonra podlarin metriclerini sorgulama komutu;
+k top pods -n bsegitim
+
+--cpu limit ornegi
+k apply -f cpu-limit.yml -n bsegitim
+
+--cpu limit podunu inceleme komutu;
+k top pod cpu-limit -n bsegitim
+k apply -f cpu-limit.yml -n bsegitim
+
+--liveness probe, readiness probe, startup probe farkları nedir?
+--cevap: once startup/readines/liveness seklinde calisir. genelde readiness ve liveness yazmak yeterli. 
+
+--Horizontal Pod Autoscale (HPA):
+k apply -f hpa.yml -n bsegitim
+
+--Vertical Pod Autoscale (VPA):
+--yatay da cpu yuku yuzde 50 yi actiginda maximum 10 replica olusturacak sekilde bir autoscale komutu yazacak olursak;
+k autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10 -n bsegitim
+
+k get hpa -n bsegitim
+k run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never  -n bsegitim -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache; done"
+k get hpa php-apache --watch -n bsegitim
+
+--max replica lar yuk ortadan kalkinca ne oluyor?
+
+--Replicaset:
+akis: deployment/replicaset/pod
+
+k create deployment test --image=nginx -n bsegitim
+k set image deployment test nginx=nginx:1.9.1 -n bsegitim
+k rollout history deployment test -n bsegitim (revision history sini bu komut ile goruyoruz)
+k rollout undo deployment test -n bsegitim (oncek versiona doner)
+k rollout undo deployment test --to-revision=2 -n bsegitim (belirli versiona doner)
+
+--taint? arastir
+
+--deamonset? arastir
+
+--statefulsets? arastir (stickysession yapilabiliyor mu?)
+
+--cronjob
+k get cronjob hello -n bsegitim (hello job i izler)
+k get jobs --watch -n bsegitim (tum joblari izler)
+k delete cronjob hello -n bsegitim (hello isimli jobu siler)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
