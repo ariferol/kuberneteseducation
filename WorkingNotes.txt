@@ -234,6 +234,7 @@ k rollout undo deployment test -n bsegitim (oncek versiona doner)
 k rollout undo deployment test --to-revision=2 -n bsegitim (belirli versiona doner)
 
 --taint? arastir
+--replicaset lerin flag kayitlarini tutar
 
 --deamonset? arastir
 
