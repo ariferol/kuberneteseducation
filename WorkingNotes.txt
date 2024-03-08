@@ -233,17 +233,58 @@ k rollout history deployment test -n bsegitim (revision history sini bu komut il
 k rollout undo deployment test -n bsegitim (oncek versiona doner)
 k rollout undo deployment test --to-revision=2 -n bsegitim (belirli versiona doner)
 
---taint? arastir
+--taint? 
+--podlar icin tag vererek yonetmek icin kullanilan flag lar dir
 --replicaset lerin flag kayitlarini tutar
 
---deamonset? arastir
+--deamonset? 
+--tum podlar icin gecerli olacak islemler icin kullanilir
 
---statefulsets? arastir (stickysession yapilabiliyor mu?)
+--statefulsets? arastir 
+--state tutulabilen podlar icin kullanilir(stickysession yapilabiliyor mu?)
 
 --cronjob
 k get cronjob hello -n bsegitim (hello job i izler)
 k get jobs --watch -n bsegitim (tum joblari izler)
 k delete cronjob hello -n bsegitim (hello isimli jobu siler)
+
+--SORULAR:
+1--Ingress ve LB sticky session problemi
+(en effective olani layer 7(APP layer olabilir mi) da calisan ingress controller değil mi)?
+-ingress olarak efective olabilir
+2--pv docker nfs mount mumkun mu?
+-evet
+3--pv ve pvc arasındaki fark nedir?(sistem ve developer ekipleri arasindaki is bolumu nasıl?)
+--pv volume bildirimi dir, pvc bildirimi yapilan pv nin kullanımı dır.
+5--Security çözümleri neler?(auth, athorize(RBAC support?), ssl)
+6--Bitnami nin ArtifactHub projesi nedir?
+-Helm chartlar icin defacto standart repo dur
+7--Helm bestpractice komut kullanim ornekleri?
+8--Kubernetes secret olusturmak yerine vault kullanmak mantıklı olur mu?
+--secret datasını kubernetes stack inin icindeki etcd veri tabanında tuttuğu için secret tercih edilmesi mantıklı olur.
+9--security sertifikalarinin kapsamı ile ilgili detaylı bilginiz varmıdır?
+10--webapp server lari containerize etmek mantıklı mı? 
+-Standalone data yönetmek anlamli degilse containerize edilebilir
+
+--rolling upgrade:
+--Troubleshooting(big picture path i dokumanlardan incele):
+--k get logs pod-name --previous (bir onceki loglari gösterir)
+--k exec -it pod pod-name -- sh (pod-name isimli pod un içindeki bir container a ssh connection açar)
+--k get pods -o wide
+
+--HELM:
+--chart.yaml ve requeirements.yaml içinde tanimlamalar eklenir bu tanimlamalar, template ler altındaki yaml file ları kullanır.
+
+--Custom operators:
+1-Go Operator
+2-Ansible Operator
+3-Helm Operator
+
+
+
+
+
+
 
 
 
