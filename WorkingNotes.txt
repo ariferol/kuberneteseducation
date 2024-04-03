@@ -98,6 +98,13 @@ alias k="minikube kubectl --"
 k get pods (pod listesini getirir)
 k get pods -o wide (pod listesini ekstra kolonlar ile getirir)
 
+--bsegitim namespace indeki tum podlari detayli listeler
+k get pods -o wide -n bsegitim
+
+--pod silme;
+k delete pod keycloak-0 (tek pod silme)
+k delete pod keycloak-0 keycloak-postgresql-0 (coklu pod silmek icin her bir pod arasinda bir bosluk olacak)
+
 --ornek kubernetes deployment proje create komutu:
 k create deployment hello-minikube --image=docker.io/nginx:1.23
 
